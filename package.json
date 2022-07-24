@@ -1,0 +1,27 @@
+{
+	"name": "node-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/NikitaKazancev/node-api.git"
+	},
+	"author": "Nikita Kazantsev",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/NikitaKazancev/node-api/issues"
+	},
+	"homepage": "https://github.com/NikitaKazancev/node-api#readme",
+	"devDependencies": {
+		"@types/express": "^4.17.13",
+		"@types/node": "^18.0.6"
+	},
+	"dependencies": {
+		"express": "^4.18.1"
+	}
+}
