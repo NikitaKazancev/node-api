@@ -1,10 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
+import { inject, injectable } from 'inversify';
+import 'reflect-metadata';
+
+import Components from '../types/Components.js';
 import IErrorHandler from '../types/IErrorHandler.js';
 import ILoggerService from '../types/ILoggerService.js';
 import HTTPError from './HTTPError.js';
 
+@injectable()
 export default class ErrorHandler implements IErrorHandler {
-	constructor(public logger: ILoggerService) {
+	constructor(
+		@inject(Components.ILoggerService) private logger: ILoggerService
+	) {
 		logger.log('Error handler has been ran');
 	}
 

@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import { injectable } from 'inversify';
+import 'reflect-metadata';
+
 import ILoggerService from './ILoggerService';
 
 export interface IControllerRoute {
@@ -7,6 +10,7 @@ export interface IControllerRoute {
 	method: keyof Pick<Router, 'get' | 'post' | 'delete' | 'put' | 'patch'>;
 }
 
+@injectable()
 export default abstract class BaseController {
 	private readonly _router: Router;
 

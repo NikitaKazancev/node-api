@@ -1,18 +1,23 @@
 import express, { Express } from 'express';
 import { Server } from 'http';
-import UserController from '../users/UserController.js';
+import { injectable, inject } from 'inversify';
+import 'reflect-metadata';
+
+import BaseController from './types/BaseController.js';
+import Components from './types/Components.js';
 import IErrorHandler from './types/IErrorHandler.js';
 import ILoggerService from './types/ILoggerService.js';
 
+@injectable()
 export default class App {
-	private app: Express = express();
+	private app = express();
 	private server: Server | undefined;
 	private port = 8000;
 
 	constructor(
-		private logger: ILoggerService,
-		private userController: UserController,
-		private errorHandler: IErrorHandler
+		@inject(Components.ILoggerService) private logger: ILoggerService,
+		@inject(Components.BaseController) private userController: BaseController,
+		@inject(Components.IErrorHandler) private errorHandler: IErrorHandler
 	) {}
 
 	private useRoutes() {
