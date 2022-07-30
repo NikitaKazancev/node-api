@@ -1,0 +1,19 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Nodemon",
+			"type": "node",
+			"request": "launch",
+			"runtimeExecutable": "npm",
+			// run start:inspect script set in package.json
+			// it is like vs code running npm run start:inspect
+			"runtimeArgs": [
+				"run-script",
+				"debug:config"
+			],
+			"sourceMaps": true,
+			"console": "integratedTerminal"
+		},
+	]
+}

@@ -3,10 +3,10 @@ import { Server } from 'http';
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
 
-import BaseController from './types/BaseController.js';
-import Components from './types/Components.js';
-import IErrorHandler from './types/IErrorHandler.js';
-import ILoggerService from './types/ILoggerService.js';
+import BaseController from './types/BaseController';
+import Components from './types/Components';
+import IErrorHandler from './types/IErrorHandler';
+import ILoggerService from './types/ILoggerService';
 
 @injectable()
 export default class App {
@@ -20,15 +20,15 @@ export default class App {
 		@inject(Components.IErrorHandler) private errorHandler: IErrorHandler
 	) {}
 
-	private useRoutes() {
+	private useRoutes(): void {
 		this.app.use('/users?', this.userController.router);
 	}
 
-	private useExceptionFilter() {
+	private useExceptionFilter(): void {
 		this.app.use(this.errorHandler.catch.bind(this.errorHandler));
 	}
 
-	public init() {
+	public init(): void {
 		this.useRoutes();
 		this.useExceptionFilter();
 		this.server = this.app.listen(this.port);

@@ -31,11 +31,11 @@ export default abstract class BaseController {
 		return res.sendStatus(201);
 	}
 
-	get router() {
+	get router(): Router {
 		return this._router;
 	}
 
-	protected bindRoutes(routes: IControllerRoute[]) {
+	protected bindRoutes(routes: IControllerRoute[]): void {
 		routes.forEach(({ method, path, func }) => {
 			this.logger.log(`[${method}]: ${path}`);
 			this.router[method](path, func.bind(this));

@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import HTTPError from '../server/errors/HTTPError.js';
+import fs from 'fs';
+import { resolve } from 'path';
 
-import BaseController from '../server/types/BaseController.js';
-import Components from '../server/types/Components.js';
-import ILoggerService from '../server/types/ILoggerService.js';
-
+import HTTPError from '../errors/HTTPError';
+import BaseController from '../types/BaseController';
+import Components from '../types/Components';
+import ILoggerService from '../types/ILoggerService';
 @injectable()
 export default class UserController extends BaseController {
 	constructor(@inject(Components.ILoggerService) logger: ILoggerService) {
@@ -17,12 +18,12 @@ export default class UserController extends BaseController {
 		]);
 	}
 
-	login(req: Request, res: Response, next: NextFunction) {
+	login(req: Request, res: Response, next: NextFunction): void {
 		// this.ok(res, 'login');
 		next(new HTTPError(401, 'Unauthorized', 'unknown'));
 	}
 
-	register(req: Request, res: Response, next: NextFunction) {
+	register(req: Request, res: Response, next: NextFunction): void {
 		this.ok(res, 'register');
 	}
 }

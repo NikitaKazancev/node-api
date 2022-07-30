@@ -1,0 +1,9 @@
+{
+	"ext": "ts,json",
+	"ignore": [
+		"src/**/*.spec.ts"
+	],
+	"execMap": {
+		"ts": "node --require ts-node/register"
+	}
+}
