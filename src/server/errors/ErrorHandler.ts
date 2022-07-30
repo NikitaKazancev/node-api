@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 
 import Components from '../types/Components';
-import IErrorHandler from '../types/IErrorHandler';
+import IErrorHandler from './IErrorHandler';
 import ILoggerService from '../types/ILoggerService';
 import HTTPError from './HTTPError';
 
@@ -16,7 +16,7 @@ export default class ErrorHandler implements IErrorHandler {
 	catch(err: Error | HTTPError, req: Request, res: Response, next: NextFunction): void {
 		if (err instanceof HTTPError) {
 			this.logger.error(`[${err.context}] Error ${err.message} : ${err.statusCode}`);
-			res.status(err.statusCode).send({ err: err.message });
+			res.status(err.statusCode).send({ err: JSON.parse(err.message) });
 		} else {
 			this.logger.error(err.message);
 			res.status(500).send({ err: err.message });

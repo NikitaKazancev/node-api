@@ -2,10 +2,11 @@ import express, { Express } from 'express';
 import { Server } from 'http';
 import { injectable, inject } from 'inversify';
 import 'reflect-metadata';
+import { json } from 'body-parser';
 
-import BaseController from './types/BaseController';
+import BaseController from './common/BaseController';
 import Components from './types/Components';
-import IErrorHandler from './types/IErrorHandler';
+import IErrorHandler from './errors/IErrorHandler';
 import ILoggerService from './types/ILoggerService';
 
 @injectable()
@@ -20,6 +21,10 @@ export default class App {
 		@inject(Components.IErrorHandler) private errorHandler: IErrorHandler
 	) {}
 
+	private useMiddleware(): void {
+		this.app.use(json());
+	}
+
 	private useRoutes(): void {
 		this.app.use('/users?', this.userController.router);
 	}
@@ -29,6 +34,7 @@ export default class App {
 	}
 
 	public init(): void {
+		this.useMiddleware();
 		this.useRoutes();
 		this.useExceptionFilter();
 		this.server = this.app.listen(this.port);
