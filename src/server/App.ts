@@ -8,6 +8,7 @@ import BaseController from './common/BaseController';
 import Components from './types/Components';
 import IErrorHandler from './errors/IErrorHandler';
 import ILoggerService from './services/logger/ILoggerService';
+import { PrismaService } from './database/PrismaService';
 
 @injectable()
 export default class App {
@@ -18,7 +19,8 @@ export default class App {
 	constructor(
 		@inject(Components.ILoggerService) private logger: ILoggerService,
 		@inject(Components.BaseController) private userController: BaseController,
-		@inject(Components.IErrorHandler) private errorHandler: IErrorHandler
+		@inject(Components.IErrorHandler) private errorHandler: IErrorHandler,
+		@inject(Components.PrismaService) private prismaService: PrismaService
 	) {}
 
 	private useMiddleware(): void {
@@ -34,10 +36,11 @@ export default class App {
 		this.app.use(this.errorHandler.catch.bind(this.errorHandler));
 	}
 
-	public init(): void {
+	public async init(): Promise<void> {
 		this.useMiddleware();
 		this.useRoutes();
 		this.useExceptionFilter();
+		await this.prismaService.connect();
 		this.server = this.app.listen(this.port);
 		this.logger.log(`Server is running on http://localhost:${this.port}`);
 	}

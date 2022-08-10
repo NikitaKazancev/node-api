@@ -36,7 +36,11 @@ export default class UserController extends BaseController {
 		return router;
 	}
 
-	login({ body }: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
+	login(
+		{ body }: Request<{}, {}, UserLoginDto>,
+		res: Response,
+		next: NextFunction
+	): void {
 		this.ok(res, 'login');
 	}
 

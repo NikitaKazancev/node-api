@@ -11,14 +11,28 @@ import IUserService from './server/users/IUserService';
 import UserService from './server/users/UserService';
 import { IConfigService } from './server/services/config/IConfigService';
 import { ConfigService } from './server/services/config/ConfigService';
+import { PrismaService } from './server/database/PrismaService';
 
 const appBindings = new ContainerModule((bind: interfaces.Bind) => {
-	bind<ILoggerService>(Components.ILoggerService).to(LoggerService).inSingletonScope();
-	bind<IErrorHandler>(Components.IErrorHandler).to(ErrorHandler).inSingletonScope();
-	bind<BaseController>(Components.BaseController).to(UserController).inSingletonScope();
-	bind<IUserService>(Components.IUserService).to(UserService).inSingletonScope();
-	bind<IConfigService>(Components.IConfigService).to(ConfigService).inSingletonScope();
-	bind(Components.App).to(App).inSingletonScope();
+	bind<ILoggerService>(Components.ILoggerService)
+		.to(LoggerService)
+		.inSingletonScope();
+	bind<IErrorHandler>(Components.IErrorHandler)
+		.to(ErrorHandler)
+		.inSingletonScope();
+	bind<BaseController>(Components.BaseController)
+		.to(UserController)
+		.inSingletonScope();
+	bind<IUserService>(Components.IUserService)
+		.to(UserService)
+		.inSingletonScope();
+	bind<IConfigService>(Components.IConfigService)
+		.to(ConfigService)
+		.inSingletonScope();
+	bind<PrismaService>(Components.PrismaService)
+		.to(PrismaService)
+		.inSingletonScope();
+	bind<App>(Components.App).to(App).inSingletonScope();
 });
 
 function main(): { appContainer: Container; app: App } {

@@ -9,9 +9,15 @@ import User from './User';
 
 @injectable()
 export default class UserService implements IUserService {
-	constructor(@inject(Components.IConfigService) private configService: ConfigService) {}
+	constructor(
+		@inject(Components.IConfigService) private configService: ConfigService
+	) {}
 
-	async createUser({ email, name, password }: UserRegisterDto): Promise<User | null> {
+	async createUser({
+		email,
+		name,
+		password,
+	}: UserRegisterDto): Promise<User | null> {
 		const user = new User(email, name);
 		await user.setPassword(password, this.configService.get(ENV.SALT));
 		return null;

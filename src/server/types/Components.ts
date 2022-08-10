@@ -5,6 +5,7 @@ const Components = {
 	ILoggerService: Symbol.for('ILoggerService'),
 	IUserService: Symbol.for('IUserService'),
 	IConfigService: Symbol.for('IConfigService'),
+	PrismaService: Symbol.for('PrismaService'),
 };
 
 export default Components;

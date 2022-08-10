@@ -9,13 +9,22 @@ import HTTPError from './HTTPError';
 
 @injectable()
 export default class ErrorHandler implements IErrorHandler {
-	constructor(@inject(Components.ILoggerService) private logger: ILoggerService) {
+	constructor(
+		@inject(Components.ILoggerService) private logger: ILoggerService
+	) {
 		logger.log('Error handler has been ran');
 	}
 
-	catch(err: Error | HTTPError, req: Request, res: Response, next: NextFunction): void {
+	catch(
+		err: Error | HTTPError,
+		req: Request,
+		res: Response,
+		next: NextFunction
+	): void {
 		if (err instanceof HTTPError) {
-			this.logger.error(`[${err.context}] Error ${err.message} : ${err.statusCode}`);
+			this.logger.error(
+				`[${err.context}] Error ${err.message} : ${err.statusCode}`
+			);
 			res.status(err.statusCode).send({ err: err.message });
 		} else {
 			this.logger.error(err.message);
