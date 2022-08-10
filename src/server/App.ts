@@ -7,7 +7,7 @@ import { json } from 'body-parser';
 import BaseController from './common/BaseController';
 import Components from './types/Components';
 import IErrorHandler from './errors/IErrorHandler';
-import ILoggerService from './types/ILoggerService';
+import ILoggerService from './services/logger/ILoggerService';
 
 @injectable()
 export default class App {
@@ -26,7 +26,8 @@ export default class App {
 	}
 
 	private useRoutes(): void {
-		this.app.use('/users?', this.userController.router);
+		const usersPath = '/users?';
+		this.app.use(usersPath, this.userController.exec(usersPath));
 	}
 
 	private useExceptionFilter(): void {

@@ -2,8 +2,8 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { injectable } from 'inversify';
 import 'reflect-metadata';
 
-import ILoggerService from '../types/ILoggerService';
-import IMiddleware from '../types/IMiddleware';
+import ILoggerService from '../services/logger/ILoggerService';
+import IMiddleware from '../middlewares/IMiddleware';
 
 export interface IControllerRoute {
 	path: string;
@@ -15,6 +15,7 @@ export interface IControllerRoute {
 @injectable()
 export default abstract class BaseController {
 	private readonly _router: Router;
+	protected generalPath: string;
 
 	constructor(private logger: ILoggerService) {
 		this._router = Router();
@@ -39,7 +40,7 @@ export default abstract class BaseController {
 
 	protected bindRoutes(routes: IControllerRoute[]): void {
 		routes.forEach(({ method, path, func, middlewares }) => {
-			this.logger.log(`[${method}]: ${path}`);
+			this.logger.log(`[${method}]: ${this.generalPath}${path}`);
 
 			const handler = func.bind(this);
 			const middleware = middlewares?.map(m => m.execute.bind(m));
@@ -47,5 +48,10 @@ export default abstract class BaseController {
 
 			this.router[method](path, pipeline);
 		});
+	}
+
+	public exec(path: string): Router {
+		this.generalPath = path;
+		return this.router;
 	}
 }
