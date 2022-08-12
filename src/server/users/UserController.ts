@@ -24,7 +24,12 @@ export default class UserController extends BaseController {
 		const router = super.exec(path);
 
 		this.bindRoutes([
-			{ path: '/login', method: 'post', func: this.login },
+			{
+				path: '/login',
+				method: 'post',
+				func: this.login,
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
+			},
 			{
 				path: '/register',
 				method: 'post',
@@ -36,12 +41,14 @@ export default class UserController extends BaseController {
 		return router;
 	}
 
-	login(
+	async login(
 		{ body }: Request<{}, {}, UserLoginDto>,
 		res: Response,
 		next: NextFunction
-	): void {
-		this.ok(res, 'login');
+	): Promise<void> {
+		const result = await this.userService.checkUser(body);
+		if (result) this.ok(res, 'login');
+		else next(new HTTPError(401, 'Unauthorized', 'login'));
 	}
 
 	async register(
@@ -51,6 +58,6 @@ export default class UserController extends BaseController {
 	): Promise<void> {
 		const result = await this.userService.createUser(body);
 		if (!result) return next(new HTTPError(422, 'Such user already exist'));
-		this.ok(res, { email: result.email });
+		this.ok(res, { email: result.email, id: result.id });
 	}
 }

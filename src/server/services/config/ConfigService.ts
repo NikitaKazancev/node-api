@@ -1,4 +1,8 @@
-import { config as getConfig, DotenvConfigOutput, DotenvParseOutput } from 'dotenv';
+import {
+	config as getConfig,
+	DotenvConfigOutput,
+	DotenvParseOutput,
+} from 'dotenv';
 import { inject, injectable } from 'inversify';
 import Components from '../../types/Components';
 import { ENV } from '../../types/constants';
@@ -19,7 +23,7 @@ export class ConfigService implements IConfigService {
 		}
 	}
 
-	get<T extends string | number>(key: ENV): T {
-		return this.config[key] as T;
+	get<T extends number>(key: ENV): T {
+		return +this.config[key] as T;
 	}
 }

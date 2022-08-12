@@ -13,7 +13,10 @@ export class ValidateMiddleware implements IMiddleware {
 		validate(instance).then(errors => {
 			if (errors.length) {
 				const message = JSON.stringify([
-					...errors.map(({ property, value, constraints }) => ({ [property]: value, constraints })),
+					...errors.map(({ property, value, constraints }) => ({
+						[property]: value,
+						constraints,
+					})),
 				]);
 				next(new HTTPError(422, message, 'Validation'));
 			} else next();
