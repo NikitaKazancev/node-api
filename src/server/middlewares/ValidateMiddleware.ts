@@ -2,7 +2,10 @@ import { ClassConstructor, plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 import { Request, Response } from 'express';
 import { NextFunction } from 'express-serve-static-core';
+import { inject } from 'inversify';
 import HTTPError from '../errors/HTTPError';
+import ILoggerService from '../services/logger/ILoggerService';
+import Components from '../types/Components';
 import IMiddleware from './IMiddleware';
 
 export class ValidateMiddleware implements IMiddleware {

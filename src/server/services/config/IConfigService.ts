@@ -1,5 +1,5 @@
-import { ENV } from '../../types/constants';
+import { ENV } from './ENV';
 
 export interface IConfigService {
-	get: <T extends number>(key: ENV) => T;
+	get: <T extends number | string>(key: ENV) => T;
 }

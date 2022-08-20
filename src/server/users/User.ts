@@ -1,5 +1,3 @@
-import { hash } from 'bcryptjs';
-
 export default class User {
 	constructor(
 		private readonly _email: string,
@@ -18,8 +16,4 @@ export default class User {
 	get password(): string {
 		return this._password;
 	}
-
-	// public async setPassword(pass: string, salt: number): Promise<void> {
-	// 	this._password = await hash(pass, salt);
-	// }
 }

@@ -12,7 +12,7 @@ export default class ErrorHandler implements IErrorHandler {
 	constructor(
 		@inject(Components.ILoggerService) private logger: ILoggerService
 	) {
-		logger.log('Error handler has been ran');
+		logger.log('Error Handler has been ran');
 	}
 
 	catch(

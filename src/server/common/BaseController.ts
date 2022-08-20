@@ -26,8 +26,11 @@ export default abstract class BaseController {
 		return res.status(code).json(message);
 	}
 
-	public ok<T>(res: Response, message: T): Response {
-		return this.send<T>(res, 200, message);
+	public ok<T extends { data?: any; message?: string }>(
+		res: Response,
+		data: T
+	): Response {
+		return this.send<T>(res, 200, data);
 	}
 
 	public created(res: Response): Response {

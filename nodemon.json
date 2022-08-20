@@ -3,5 +3,6 @@
 	"ignore": ["src/**/*.spec.ts"],
 	"execMap": {
 		"ts": "node --require ts-node/register"
-	}
+	},
+	"exec": "ts-node --files src/index.ts"
 }

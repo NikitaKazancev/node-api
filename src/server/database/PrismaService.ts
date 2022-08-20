@@ -9,7 +9,9 @@ export class PrismaService {
 
 	constructor(
 		@inject(Components.ILoggerService) private logger: ILoggerService
-	) {}
+	) {
+		logger.log('Prisma Service has been ran');
+	}
 
 	async connect(): Promise<void> {
 		try {
