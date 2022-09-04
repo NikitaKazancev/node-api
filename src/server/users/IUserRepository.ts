@@ -1,5 +1,5 @@
-import { UserModel } from '@prisma/client';
-import User from './User';
+import { type UserModel } from '@prisma/client';
+import type User from './User';
 
 export interface IUserRepository {
 	create: (user: User) => Promise<UserModel>;

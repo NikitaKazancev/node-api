@@ -1,17 +1,19 @@
 import {
 	config as getConfig,
-	DotenvConfigOutput,
-	DotenvParseOutput,
+	type DotenvConfigOutput,
+	type DotenvParseOutput,
 } from 'dotenv';
 import { inject, injectable } from 'inversify';
 import Components from '../../types/Components';
-import ILoggerService from '../logger/ILoggerService';
+import type ILoggerService from '../logger/ILoggerService';
 import { ENV } from './ENV';
-import { IConfigService } from './IConfigService';
+import { type IConfigService } from './IConfigService';
 
 @injectable()
 export class ConfigService implements IConfigService {
-	private config: DotenvParseOutput;
+	private config: {
+		[name: string]: string | number;
+	};
 
 	constructor(@inject(Components.ILoggerService) logger: ILoggerService) {
 		const result: DotenvConfigOutput = getConfig();
@@ -20,6 +22,8 @@ export class ConfigService implements IConfigService {
 		} else {
 			logger.log('[ConfigService] Configuration .env has been loaded');
 			this.config = result.parsed as DotenvParseOutput;
+			if (this.config[ENV.SALT])
+				this.config[ENV.SALT] = +this.config[ENV.SALT];
 		}
 	}
 

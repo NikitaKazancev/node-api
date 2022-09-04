@@ -1,9 +1,14 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import {
+	type NextFunction,
+	type Request,
+	type Response,
+	Router,
+} from 'express';
 import { injectable } from 'inversify';
 import 'reflect-metadata';
 
-import ILoggerService from '../services/logger/ILoggerService';
-import IMiddleware from '../middlewares/IMiddleware';
+import type ILoggerService from '../services/logger/ILoggerService';
+import type IMiddleware from '../middlewares/IMiddleware';
 
 export interface IControllerRoute {
 	path: string;

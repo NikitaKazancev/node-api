@@ -40,12 +40,12 @@ const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<App>(Components.App).to(App).inSingletonScope();
 });
 
-function main(): { appContainer: Container; app: App } {
+async function main(): Promise<{ appContainer: Container; app: App }> {
 	const appContainer = new Container();
 	appContainer.load(appBindings);
 	const app = appContainer.get<App>(Components.App);
-	app.init();
+	await app.init();
 	return { appContainer, app };
 }
 
-export const { app, appContainer } = main();
+export const boot = main();

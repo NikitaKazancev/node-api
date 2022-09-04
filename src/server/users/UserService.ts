@@ -1,19 +1,22 @@
-import { UserModel } from '@prisma/client';
+import { type UserModel } from '@prisma/client';
 import { compare, hash } from 'bcryptjs';
 import { inject, injectable } from 'inversify';
-import { ConfigService } from '../services/config/ConfigService';
+import { type ConfigService } from '../services/config/ConfigService';
 import Components from '../types/Components';
 import { ENV } from '../services/config/ENV';
-import UserLoginDto from './dto/UserLoginDto';
-import UserRegisterDto from './dto/UserRegisterDto';
-import { IUserRepository } from './IUserRepository';
-import IUserService, { IGetUserResponse } from './IUserService';
+import type UserLoginDto from './dto/UserLoginDto';
+import type UserRegisterDto from './dto/UserRegisterDto';
+import { type IUserRepository } from './IUserRepository';
+import IUserService, {
+	GetUserType,
+	type GetUserResponse,
+} from './IUserService';
 import User from './User';
-import ILoggerService from '../services/logger/ILoggerService';
+import type ILoggerService from '../services/logger/ILoggerService';
 
 @injectable()
 export default class UserService implements IUserService {
-	private salt: number;
+	private salt: string | number;
 
 	constructor(
 		@inject(Components.IConfigService) configService: ConfigService,
@@ -44,17 +47,17 @@ export default class UserService implements IUserService {
 		return existedUser.id;
 	}
 
-	async getUser({ email, password }: UserLoginDto): Promise<IGetUserResponse> {
+	async getUser({ email, password }: UserLoginDto): Promise<GetUserResponse> {
 		const existedUser = await this.userRepository.find(email);
-		if (!existedUser) return { type: 'incorrect-email' };
+		if (!existedUser) return { type: GetUserType.INCORRECT_EMAIL };
 
 		if (await compare(password, existedUser.password))
-			return { user: existedUser, type: 'success' };
-		return { type: 'incorrect-password' };
+			return { user: existedUser, type: GetUserType.SUCCESS };
+		return { type: GetUserType.INCORRECT_PASSWORD };
 	}
 
 	async deleteUser({ email, password }: UserLoginDto): Promise<boolean> {
-		const res: IGetUserResponse = await this.getUser({ email, password });
+		const res: GetUserResponse = await this.getUser({ email, password });
 		if (res.type != 'success') return false;
 		else return !!(await this.userRepository.delete(res.user.id));
 	}

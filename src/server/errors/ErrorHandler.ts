@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 
 import Components from '../types/Components';
-import IErrorHandler from './IErrorHandler';
-import ILoggerService from '../services/logger/ILoggerService';
+import type IErrorHandler from './IErrorHandler';
+import type ILoggerService from '../services/logger/ILoggerService';
 import HTTPError from './HTTPError';
 
 @injectable()

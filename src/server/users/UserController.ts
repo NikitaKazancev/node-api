@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import type { NextFunction, Request, Response, Router } from 'express';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { ValidateMiddleware } from '../middlewares/ValidateMiddleware';
@@ -7,11 +7,11 @@ import { sign } from 'jsonwebtoken';
 
 import BaseController from '../common/BaseController';
 import Components from '../types/Components';
-import ILoggerService from '../services/logger/ILoggerService';
+import type ILoggerService from '../services/logger/ILoggerService';
 import UserLoginDto from './dto/UserLoginDto';
 import UserRegisterDto from './dto/UserRegisterDto';
-import IUserService, { IGetUserResponse } from './IUserService';
-import { IConfigService } from '../services/config/IConfigService';
+import IUserService, { type GetUserResponse } from './IUserService';
+import { type IConfigService } from '../services/config/IConfigService';
 import { ENV } from '../services/config/ENV';
 import { AuthGuardMiddleware } from '../middlewares/AuthGuardMiddleware';
 @injectable()
@@ -66,7 +66,7 @@ export default class UserController extends BaseController {
 		res: Response,
 		next: NextFunction
 	): Promise<void> {
-		const response: IGetUserResponse = await this.userService.getUser(body);
+		const response: GetUserResponse = await this.userService.getUser(body);
 
 		switch (response.type) {
 			case 'incorrect-email':

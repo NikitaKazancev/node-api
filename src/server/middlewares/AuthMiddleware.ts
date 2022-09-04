@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
-import { JwtPayload, verify } from 'jsonwebtoken';
-import IMiddleware from './IMiddleware';
+import type { NextFunction, Request, Response } from 'express';
+import { type JwtPayload, verify } from 'jsonwebtoken';
+import type IMiddleware from './IMiddleware';
 
 export class AuthMiddleware implements IMiddleware {
 	constructor(private secret: string) {}
